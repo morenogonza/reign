@@ -1,0 +1,8 @@
+<div class="w-full flex justify-start">
+  <mat-form-field appearance="fill">
+    <mat-label>Select your news</mat-label>
+    <mat-select [formControl]="newsSelect">
+      <mat-option [value]="favorite.title" *ngFor="let favorite of newsList">{{ favorite.title | titlecase }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>

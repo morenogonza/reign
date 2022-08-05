@@ -1,0 +1,29 @@
+<div class="absolute z-50 flex justify-center items-center w-screen h-screen bg-gray-100/50" *ngIf="loading$ | async">
+  <mat-spinner diameter="60"></mat-spinner>
+</div>
+
+<div class="flex justify-center flex-col items-center w-full">
+  <app-header class="w-full"></app-header>
+  <app-toggle-favs></app-toggle-favs>
+  <ng-container *ngIf="(toggleFavs$ | async) === 'all'">
+    <div class="px-2 md:px-20 flex justify-start w-full">
+      <app-select-news class="w-full"></app-select-news>
+    </div>
+  </ng-container>
+  <div
+    infinite-scroll
+    [infiniteScrollDistance]="distance"
+    [infiniteScrollThrottle]="throttle"
+    (scrolled)="onScroll()"
+    class="grid grid-cols-1 md:grid-cols-2 gap-6 px-2"
+    *ngIf="hits"
+  >
+    <app-news-card *ngFor="let hit of hits" [hit]="hit"></app-news-card>
+  </div>
+  <ng-container *ngIf="(toggleFavs$ | async) === 'myFavs' && hits.length === 0">
+    <div class="w-full h-full flex flex-col justify-center items-center">
+      <mat-icon style="width: 50px; height: 50px; font-size: 50px">comments_disabled</mat-icon>
+      <span class="text-2xl">You have no favorites</span>
+    </div>
+  </ng-container>
+</div>
