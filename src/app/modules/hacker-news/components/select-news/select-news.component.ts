@@ -1,16 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { SelectFavs, SelectNews } from '@news';
 import { Store } from '@ngrx/store';
 import { AppState } from '@store';
-import { HitsGet } from '../../store/news.actions';
+import { HitsGet } from '@news';
 
 @Component({
   selector: 'app-select-news',
   templateUrl: './select-news.component.html',
   styles: [],
 })
-export class SelectNewsComponent implements OnInit {
+export class SelectNewsComponent {
   newsSelect: FormControl = new FormControl('', Validators.required);
 
   newsList: SelectFavs[] = [
@@ -34,11 +34,9 @@ export class SelectNewsComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-    this.newsSelect.valueChanges.subscribe((value) => {
-      this.store.dispatch(SelectNews({ news: value }));
-    });
-
-    this.newsSelect.valueChanges.subscribe((value) => this.store.dispatch(HitsGet({ language: value, page: 1 })));
+  selectionChange() {
+    const language = this.newsSelect.value;
+    this.store.dispatch(SelectNews({ news: language }));
+    this.store.dispatch(HitsGet({ language, page: 1 }));
   }
 }

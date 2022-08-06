@@ -2,9 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable, tap } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState } from '@store';
-import { Hits, HitsGet } from '@news';
-import { NewsService } from '../services/news.service';
-import { HitsSet } from '../store/news.actions';
+import { Hits, HitsGet, NewsService } from '@news';
 
 @Component({
   selector: 'app-main',
@@ -46,8 +44,6 @@ export class MainComponent implements OnInit {
   }
 
   onScroll(): void {
-    console.log('VIENE POR EL SCROLL');
-    console.log('PAGE: ', this.page);
     this.store.dispatch(HitsGet({ language: this.selectNews, page: ++this.page }));
   }
 }
